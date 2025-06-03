@@ -67,10 +67,11 @@ Example usage:
 from __future__ import absolute_import, print_function
 
 import argparse
+import importlib
 import os
 import sys
+from logging import config
 
-import config
 import eval_wrapper
 import numpy as np
 import pd_tools
@@ -85,7 +86,7 @@ __copyright__ = "Copyright 2022, ASVspoof consortium"
 # ==========
 
 
-def sanity_check(args):
+def sanity_check(args, config):
     # sanity check
     if not os.path.isfile(args.cm_score_file):
         print("Cannot find {:s}".format(args.cm_score_file))
@@ -145,18 +146,27 @@ def parse_argument():
     mes += "If c012-path is not provided, use c012 path specified on config.py."
     parser.add_argument("--c012-path", type=str, default="", help=mes)
 
+    parser.add_argument(
+        "--config-module", type=str, default="config", help="Name of the config module"
+    )
+
     # load argument
     args = parser.parse_args()
+    config_module = args.config_module
+    if config_module.endswith(".py"):
+        config_module = config_module[:-3]
+    config = importlib.import_module(config_module)
 
     # sanity check
-    if not sanity_check(args):
+    if not sanity_check(args, config):
         print("ERROR: arguments are invalid. ")
         sys.exit(1)
 
-    return args
+    return args, config
 
 
 def compute_tDCF_C012(
+    config,
     asv_score_pd,
     factor_name_v,
     factor_value_v,
@@ -164,12 +174,12 @@ def compute_tDCF_C012(
     factor_name_h,
     factor_value_h,
     factor_type_h,
-    cost_model=config.cost_model,
-    pooled_tag=config.g_pooled_tag,
-    target_tag=config.g_target_tag,
-    nontarget_tag=config.g_nontarget_tag,
-    spoofed_tag=config.g_spoofed_tag,
-    col_score_name=config.g_score_col_name,
+    cost_model=None,
+    pooled_tag=None,
+    target_tag=None,
+    nontarget_tag=None,
+    spoofed_tag=None,
+    col_score_name=None,
     flag_verbose=False,
 ):
     """C012_dict = compute_tDCF_C012(asv_score_pd,
@@ -251,6 +261,12 @@ def compute_tDCF_C012(
                       C012[factor_1][factor_2]['C1'] -> C1
                       C012[factor_1][factor_2]['C2'] -> C2
     """
+    cost_model = config.cost_model
+    pooled_tag = config.g_pooled_tag
+    target_tag = config.g_target_tag
+    nontarget_tag = config.g_nontarget_tag
+    spoofed_tag = config.g_spoofed_tag
+    col_score_name = config.g_score_col_name
 
     def _wrap_list(data):
         return [data] if type(data) is str else data
@@ -376,6 +392,7 @@ def compute_tDCF_C012(
 
 
 def compute_decomposed_mintdcf_eer(
+    config,
     score_pd,
     factor_name_v,
     factor_value_v,
@@ -384,10 +401,10 @@ def compute_decomposed_mintdcf_eer(
     factor_value_h,
     factor_type_h,
     C012_buf=None,
-    pooled_tag=config.g_pooled_tag,
-    bonafide_tag=config.g_bonafide_tag,
-    spoofed_tag=config.g_spoofed_tag,
-    col_score_name=config.g_score_col_name,
+    pooled_tag=None,
+    bonafide_tag=None,
+    spoofed_tag=None,
+    col_score_name=None,
     flag_verbose=False,
 ):
     """mintDCF_array, eer_array = compute_decomposed_mintdcf_eer(score_pd,
@@ -476,6 +493,10 @@ def compute_decomposed_mintdcf_eer(
       eer_array       np.array, EER values in all conditions.
                       same shape as mintDCF_array
     """
+    pooled_tag = config.g_pooled_tag
+    bonafide_tag = config.g_bonafide_tag
+    spoofed_tag = config.g_spoofed_tag
+    col_score_name = config.g_score_col_name
 
     def _wrap_list(data):
         return [data] if type(data) is str else data
@@ -616,6 +637,7 @@ def compute_decomposed_mintdcf_eer(
 
 
 def evaluation_API(
+    config,
     cm_score_file,
     track,
     subset="eval",
@@ -664,7 +686,7 @@ def evaluation_API(
     """
 
     # ===========
-    # load configuration for each trakc
+    # load configuration for each track
     # ===========
     if track == config.g_LA_track:
         config_buf = config.ConfigLA()
@@ -745,6 +767,7 @@ def evaluation_API(
         tmp_asv_score_pd = asv_score_pd.query(subset_query)
 
         C012_buf = compute_tDCF_C012(
+            config,
             tmp_asv_score_pd,
             config_buf.factor_name_1,
             config_buf.factor_1_list,
@@ -773,6 +796,7 @@ def evaluation_API(
     # compute min tDCF and EERs
     # ===========
     mintdcf_array, eer_array = compute_decomposed_mintdcf_eer(
+        config,
         tmp_score_cm_pd,
         config_buf.factor_name_1,
         config_buf.factor_1_list,
@@ -822,13 +846,14 @@ if __name__ == "__main__":
     # ====
     # parse argument
     # ====
-    args = parse_argument()
+    args, config = parse_argument()
 
     # ===
     # compute
     # ===
     # compute
     evaluation_API(
+        config,
         args.cm_score_file,
         args.track,
         args.subset,
