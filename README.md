@@ -1,14 +1,16 @@
+This repository is customed eval-package of https://github.com/asvspoof-challenge/2021.
+
 # ASVspoof 2021 Baseline CM & Evaluation Package
 
 By [ASVspoof2021 challenge organizers](https://www.asvspoof.org/)
 
 
 
-## Baseline CMs 
+## Baseline CMs
 
 Four baseline CMs are available for LA, PA, and DF tracks
 
-* Baseline-CQCC-GMM (Matlab & Python) <br/> CQCC feature extraction with GMM classifier 
+* Baseline-CQCC-GMM (Matlab & Python) <br/> CQCC feature extraction with GMM classifier
 * Baseline-LFCC-GMM (Matlab & Python) <br/> LFCC feature extraction with GMM classifier
 * Baseline-LFCC-LCNN (PyTorch) <br/> LFCC feature extraction with LCNN classifier (DNN)
 * Baseline-RawNet2 (PyTorch) <br/> End-to-End DNN classifier
