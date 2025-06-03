@@ -374,11 +374,29 @@ def concatenate_table(table_list, ignore_initial=True, add_separator=1, latex=Tr
         output_text += return_one_row_latex(temp)
 
     # latex head
-    latex_buffer = (
+    latex_buffer = """
+        \\documentclass{article}
+        \\usepackage[T1]{fontenc}
+        \\usepackage[utf8]{inputenc}
+        \\usepackage[table]{xcolor}
+        \\usepackage{booktabs}
+
+        \\begin{document}
+        \\begin{table}[]
+        \\centering
+        \\caption{EER}
+        \\footnotesize
+        \\setlength{\\tabcolsep}{3.5pt}
+    """
+    latex_buffer += (
         r"\begin{tabular}{" + "".join(["c" for x in temp + [""]]) + r"}" + "\n"
     )
     latex_buffer += output_text
     latex_buffer += r"\end{tabular}" + "\n"
+    latex_buffer += """
+        \\end{table}
+        \\end{document}
+    """
 
     return latex_buffer, output_table
 
