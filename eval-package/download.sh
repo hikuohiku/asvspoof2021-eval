@@ -35,19 +35,19 @@ for idx in 0 1 2
 do
     URLLINK=${URLLINKS[${idx}]}
     MD5VAL=${MD5SUMVALS[${idx}]}
-    
+
     PACKNAME=$(basename ${URLLINK})
 
     echo "Download ${URLLINK}"
     ${TOOL} ${URLLINK}
-    
+
     while [ ! -e "${PACKNAME}" ];
     do
 	echo "File server is busy. Re-try to download ${URLLINK}"
 	${TOOL} ${URLLINK}
 	sleep 0.5
     done
-    
+
     if [ ! -e "${PACKNAME}" ];
     then
 	echo "Failed to download the file."

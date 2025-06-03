@@ -3,24 +3,23 @@
 Pandas dataFrame tool
 """
 
-from __future__ import absolute_import
-from __future__ import print_function
+from __future__ import absolute_import, print_function
 
-import os
 import sys
+
 import pandas
 
 __author__ = "ASVspoof consortium"
 __copyright__ = "Copyright 2022, ASVspoof consortium"
 
 
-def load_protocol(protocol_file, names, sep=' ', index_col=None):
-    """ pd_protocol = load_protocol(protocol_file, names, sep=' ', index_col=None)
+def load_protocol(protocol_file, names, sep=" ", index_col=None):
+    """pd_protocol = load_protocol(protocol_file, names, sep=' ', index_col=None)
 
     input
     -----
       protocol_file  str, path to the protocol file
-      names          list of str, name of the data Series in dataFrame 
+      names          list of str, name of the data Series in dataFrame
       sep            str, separator, by default ' '
       index_col      str, name of the index column, by default None
 
@@ -28,19 +27,19 @@ def load_protocol(protocol_file, names, sep=' ', index_col=None):
     ------
       pd_protocol    pandas dataFrame
     """
-    pd_protocol = pandas.read_csv(protocol_file, sep=' ', names=names, 
-                                  index_col = index_col, skipinitialspace=True)
+    pd_protocol = pandas.read_csv(
+        protocol_file, sep=" ", names=names, index_col=index_col, skipinitialspace=True
+    )
     return pd_protocol
 
 
-
-def load_score(score_file,  names,  sep=' ', index_col=None):
-    """ pd_score = load_score(score_file, names, sep=' ', index_col=None)
+def load_score(score_file, names, sep=" ", index_col=None):
+    """pd_score = load_score(score_file, names, sep=' ', index_col=None)
 
     input
     -----
       score_file     str, path to the score file
-      names          list of str, name of the data Series in dataFrame 
+      names          list of str, name of the data Series in dataFrame
       sep            str, separator, by default ' '
       index_col      str, name of the index column, by default None
 
@@ -48,13 +47,14 @@ def load_score(score_file,  names,  sep=' ', index_col=None):
     ------
       pd_protocol    pandas dataFrame
     """
-    pd_score = pandas.read_csv(score_file, sep=sep, names=names, 
-                                  index_col=index_col, skipinitialspace=True)
+    pd_score = pandas.read_csv(
+        score_file, sep=sep, names=names, index_col=index_col, skipinitialspace=True
+    )
     return pd_score
 
 
 def join_protocol_score(pd_protocol, pd_score):
-    """ pd_final = join_protocol_score(pd_protocol, pd_score)
+    """pd_final = join_protocol_score(pd_protocol, pd_score)
 
     input
     -----
