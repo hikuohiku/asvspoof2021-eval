@@ -662,13 +662,13 @@ def evaluation_API(
       label_dir       str, path to the directory of key and meta labels
                       label_dir is the directory downloaded from ASVspoof.org
                       It should contain the following files
-                      \- DF
-                         \- CM
+                      |- DF
+                         |- CM
                              |- trial_metadata.txt
                              |- ...
-                      \- LA
+                      |- LA
                          ...
-                      \- PA
+                      |- PA
                          ...
       asv_score_file      str, path to the ASV score file, default None
                           If None, ASV score in label_dir will be loaded
