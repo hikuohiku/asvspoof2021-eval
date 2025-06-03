@@ -252,7 +252,20 @@ def print_table(
 
     # prepare buffer
     text_buffer = ""
-    latex_buffer = ""
+    latex_buffer = """
+        \\documentclass{article}
+        \\usepackage[T1]{fontenc}
+        \\usepackage[utf8]{inputenc}
+        \\usepackage[table]{xcolor}
+        \\usepackage{booktabs}
+
+        \\begin{document}
+        \\begin{table}[]
+        \\centering
+        \\caption{EER}
+        \\footnotesize
+        \\setlength{\\tabcolsep}{3.5pt}
+    """
     text_cell_buffer = []
     latex_cell_buffer = []
 
@@ -344,6 +357,10 @@ def print_table(
 
     latex_buffer += r"\bottomrule" + "\n"
     latex_buffer += r"\end{tabular}" + "\n"
+    latex_buffer += """
+        \\end{table}
+        \\end{document}
+    """
 
     if print_latex_table:
         print(latex_buffer)
