@@ -1,1 +1,0 @@
-../../../LA/Baseline-CQCC-GMM/python/asvspoof2021_baseline.py

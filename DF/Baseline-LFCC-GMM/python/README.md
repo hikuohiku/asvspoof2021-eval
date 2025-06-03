@@ -1,1 +1,0 @@
-../../../LA/Baseline-LFCC-GMM/python/README.md

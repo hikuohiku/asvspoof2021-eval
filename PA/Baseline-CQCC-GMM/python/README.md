@@ -1,1 +1,0 @@
-../../../LA/Baseline-CQCC-GMM/python/README.md

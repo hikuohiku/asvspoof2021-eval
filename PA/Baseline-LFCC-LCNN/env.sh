@@ -1,1 +1,0 @@
-../../LA/Baseline-LFCC-LCNN/env.sh
