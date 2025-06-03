@@ -96,19 +96,6 @@ def sanity_check(args, config):
         print("Please run download.sh to download the meta data")
         return False
 
-    for track in config.g_possible_tracks:
-        tmp_dir = os.path.join(args.metadata, track)
-        if not os.path.isdir(tmp_dir):
-            print("Cannot find ", tmp_dir)
-            return False
-
-    if args.track not in config.g_possible_tracks:
-        print("track must be from", str(config.g_possible_tracks))
-        return False
-    if args.subset not in config.g_possible_subsets:
-        print("subset must be from", str(config.g_possible_subsets))
-        return False
-
     return True
 
 
