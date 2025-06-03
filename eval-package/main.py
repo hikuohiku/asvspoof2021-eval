@@ -695,9 +695,9 @@ def evaluation_API(
     # ===========
     # select the subset
     # ===========
-    if track == config.g_PA_track and subset in config_buf.hidden:
+    if track == config.g_PA_track and subset in config_buf.hidden:  # type: ignore
         # special for PA
-        subset_query = config_buf.hidden[subset]
+        subset_query = config_buf.hidden[subset]  # type: ignore
     else:
         # other cases
         subset_query = '{:s} == "{:s}"'.format(config_buf.subset_col, subset)
@@ -828,7 +828,7 @@ if __name__ == "__main__":
     # compute
     # ===
     # compute
-    min_tdcfs, eers = evaluation_API(
+    evaluation_API(
         args.cm_score_file,
         args.track,
         args.subset,
