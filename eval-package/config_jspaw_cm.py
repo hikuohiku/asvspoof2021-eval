@@ -229,8 +229,8 @@ class ConfigPA:
         self.factor_name_1 = ["asv_room", "asv_mic", "dis_to_asv", "dummy"]
         # value of the factor to be considered
         self.factor_1_list = [
-            ["R1", "R2", "R3", "R4"],
-            ["M1", "M2", "M3"],
+            ["R1", "R2"],
+            ["M3"],
             ["E1", "E2", "E3", "E4"],
             [self.pooled_tag],
         ]
@@ -256,8 +256,8 @@ class ConfigPA:
             "dummy",
         ]
         self.factor_2_list = [
-            ["r1", "r2", "r3", "r4"],
-            ["m1", "m2", "m3"],
+            ["r1"],
+            ["m1", "m2"],
             ["e1", "e2", "e3"],
             ["s1", "s2", "s3", "s4"],
             #   ['d1', 'd2', 'd3', 'd4', 'd5', 'd6'],
